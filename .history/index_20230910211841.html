@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Audio Transcription</title>
+</head>
+<body>
+    <h1>Upload your audio file</h1>
+    <input type="file" id="audioFile" accept="audio/*">
+    <button onclick="transcribe()">Transcribe</button>
+    <p id="result"></p>
+
+    <script>
+        async function transcribe() {
+            const audioFile = document.getElementById('audioFile').files[0];
+            const formData = new FormData();
+            formData.append('audio_data', audioFile);
+
+            const response = await fetch('/transcribe', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            document.getElementById('result').innerText = data.transcription;
+        }
+    </script>
+</body>
+</html>
